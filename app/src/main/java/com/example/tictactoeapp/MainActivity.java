@@ -3,6 +3,7 @@ package com.example.tictactoeapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,11 +19,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int player1Points;
     private int player2Points;
+    private int draw;
 
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
+    private TextView textViewDraw;
 
-    Button buttonReset;
+    Button buttonResetField;
+    Button buttonResetGame;
+
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         textViewPlayer1 = findViewById(R.id.text_view_player1);
         textViewPlayer2 = findViewById(R.id.text_view_player2);
-        buttonReset = findViewById(R.id.button_reset);
+        textViewDraw = findViewById(R.id.text_view_draw);
+        buttonResetField = findViewById(R.id.button_reset);
+        buttonResetGame = findViewById(R.id.button_reset_game);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -42,10 +50,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        buttonReset.setOnClickListener(new View.OnClickListener() {
+        buttonResetField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetBoard();
+                reset();
+            }
+        });
+
+        buttonResetGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetGame();
             }
         });
     }
@@ -129,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player1Points++;
         Toast.makeText(this, "Player 1 won!", Toast.LENGTH_LONG).show();
         updatePointsText();
-        pause();
         resetBoard();
     }
 
@@ -137,37 +151,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player2Points++;
         Toast.makeText(this, "Player 2 won!", Toast.LENGTH_LONG).show();
         updatePointsText();
-        pause();
         resetBoard();
     }
 
     private void draw() {
+        draw++;
         Toast.makeText(this, "Draw!", Toast.LENGTH_LONG).show();
-        pause();
+        updatePointsText();
         resetBoard();
     }
 
     private void updatePointsText() {
         textViewPlayer1.setText("Player 1: " + player1Points);
         textViewPlayer2.setText("Player 2: " + player2Points);
+        textViewDraw.setText("Draw: " + draw);
+
     }
 
     private void resetBoard() {
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                // действие будет выполнено через 2с
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        buttons[i][j].setText("");
+                    }
+                }
+            }
+        }, 2000);
+
+        roundCount = 0;
+        player1Turn = true;
+    }
+    private void reset() {
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        buttons[i][j].setText("");
+                    }
+                }
+
+        roundCount = 0;
+        player1Turn = true;
+    }
+    private void resetGame() {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 buttons[i][j].setText("");
             }
         }
-
         roundCount = 0;
         player1Turn = true;
+        player1Points = 0;
+        player2Points = 0;
+        updatePointsText();
     }
-    private void pause(){
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+
+
 }
