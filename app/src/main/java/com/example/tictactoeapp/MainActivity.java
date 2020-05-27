@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int roundCount;
 
+
     private int player1Points;
     private int player2Points;
     private int draw;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonResetField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reset();
+                resetField();
             }
         });
 
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             ((Button) v).setText("O");
         }
-
         roundCount++;
 
         if (checkForWin()) {
@@ -142,21 +142,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void player1Wins() {
         player1Points++;
-        Toast.makeText(this, "Player 1 won!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Player 1 won!", Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
+
     }
 
     private void player2Wins() {
         player2Points++;
-        Toast.makeText(this, "Player 2 won!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Player 2 won!", Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
 
     private void draw() {
         draw++;
-        Toast.makeText(this, "Draw!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Draw!", Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
@@ -165,10 +166,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewPlayer1.setText("Player 1: " + player1Points);
         textViewPlayer2.setText("Player 2: " + player2Points);
         textViewDraw.setText("Draw: " + draw);
-
     }
 
     private void resetBoard() {
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttons[i][j].setEnabled(false);
+            }
+        }
+
         handler.postDelayed(new Runnable() {
             public void run() {
                 // действие будет выполнено через 2с
@@ -177,13 +184,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         buttons[i][j].setText("");
                     }
                 }
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        buttons[i][j].setEnabled(true);
+                    }
+                }
             }
         }, 2000);
+
 
         roundCount = 0;
         player1Turn = true;
     }
-    private void reset() {
+    private void resetField() {
 
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
@@ -206,6 +219,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player1Points = 0;
         player2Points = 0;
         updatePointsText();
+    }
+    private void pause(){
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
