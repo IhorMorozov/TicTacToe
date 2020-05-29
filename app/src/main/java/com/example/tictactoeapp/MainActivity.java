@@ -1,7 +1,9 @@
 package com.example.tictactoeapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -25,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private TextView textViewDraw;
-
     Button buttonResetField;
     Button buttonResetGame;
 
@@ -42,12 +43,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonResetField = findViewById(R.id.button_reset);
         buttonResetGame = findViewById(R.id.button_reset_game);
 
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 String buttonID = "button_" + i + j;
                 int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
                 buttons[i][j] = findViewById(resID);
                 buttons[i][j].setOnClickListener(this);
+            }
+        }
+
+
+        if(isLandscape()){
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                      buttons[i][j].setTextSize(30);
+                }
             }
         }
 
@@ -68,14 +79,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+
         if (!((Button) v).getText().toString().equals("")) {
             return;
         }
 
         if (player1Turn) {
+            ((Button) v).setTextColor(getResources().getColor(R.color.colorX));
             ((Button) v).setText("X");
+
         } else {
+            ((Button) v).setTextColor(getResources().getColor(R.color.colorO));
             ((Button) v).setText("O");
+
         }
         roundCount++;
 
@@ -208,25 +224,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player1Turn = true;
     }
     private void resetGame() {
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                buttons[i][j].setText("");
-            }
-        }
-        roundCount = 0;
-        player1Turn = true;
+        resetField();
         player1Points = 0;
         player2Points = 0;
+        draw=0;
         updatePointsText();
     }
-    private void pause(){
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+    @Override //цей метод спрацьовує при повороті екрана і ми можемо певні дані зберегти в цьому об'єкті по ключовим словам
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("roundCount", roundCount);
+        outState.putInt("player1Points", player1Points);
+        outState.putInt("player2Points", player2Points);
+        outState.putInt("draw", draw);
+        outState.putBoolean("player1Turn", player1Turn);
     }
 
+    @Override //цей метод дозволяє передати справжнім змінним ті дані які були скопійовані при зміні орієнтації
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        roundCount = savedInstanceState.getInt("roundCount");
+        player1Turn = savedInstanceState.getBoolean("player1Turn");
+        player1Points = savedInstanceState.getInt("player1Points");
+        player2Points = savedInstanceState.getInt("player2Points");
+        draw = savedInstanceState.getInt("draw");
+    }
+
+    private boolean isLandscape(){
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
 
 }
+
+

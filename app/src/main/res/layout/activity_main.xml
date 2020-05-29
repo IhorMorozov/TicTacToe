@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:text="Player 1: 0"
             android:textSize="15sp"
-            android:layout_margin="5sp"/>
+            android:layout_margin="5sp"
+            android:freezesText="true"/>
 
         <TextView
             android:id="@+id/text_view_player2"
@@ -28,7 +29,8 @@
             android:layout_marginBottom="5sp"
             android:layout_marginLeft="5sp"
             android:text="Player 2: 0"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:freezesText="true"/>
 
         <Button
             android:id="@+id/button_reset"
@@ -40,7 +42,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="156dp"
             android:layout_marginRight="156dp"
-            android:text="Reset Feild" />
+            android:text="Reset Field" />
 
         <Button
             android:id="@+id/button_reset_game"
@@ -64,7 +66,8 @@
             android:layout_marginStart="7dp"
             android:layout_marginLeft="7dp"
             android:layout_marginTop="31dp"
-            android:text="Draw: " />
+            android:text="Draw: 0"
+            android:freezesText="true"/>
 
     </RelativeLayout>
 
@@ -79,7 +82,8 @@
             android:layout_height="match_parent"
             android:layout_margin="5sp"
             android:layout_weight="1"
-            android:textSize="60sp" />
+            android:textSize="60sp"
+            android:freezesText="true"/>
 
         <Button
             android:id="@+id/button_01"
@@ -88,7 +92,8 @@
             android:layout_margin="5sp"
             android:layout_weight="1"
             android:textSize="60sp"
-            tools:ignore="ButtonStyle" />
+            tools:ignore="ButtonStyle"
+            android:freezesText="true"/>
 
         <Button
             android:id="@+id/button_02"
@@ -96,7 +101,8 @@
             android:layout_height="match_parent"
             android:layout_margin="5sp"
             android:layout_weight="1"
-            android:textSize="60sp" />
+            android:textSize="60sp"
+            android:freezesText="true"/>
     </LinearLayout>
 
     <LinearLayout
@@ -110,7 +116,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:layout_margin="5sp"/>
+            android:layout_margin="5sp"
+            android:freezesText="true"/>
 
         <Button
             android:id="@+id/button_11"
@@ -118,7 +125,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:layout_margin="5sp"/>
+            android:layout_margin="5sp"
+            android:freezesText="true"/>
 
         <Button
             android:id="@+id/button_12"
@@ -126,7 +134,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:layout_margin="5sp"/>
+            android:layout_margin="5sp"
+            android:freezesText="true"/>
     </LinearLayout>
 
     <LinearLayout
@@ -140,7 +149,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:layout_margin="5sp"/>
+            android:layout_margin="5sp"
+            android:freezesText="true"/>
 
         <Button
             android:id="@+id/button_21"
@@ -148,7 +158,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:layout_margin="5sp"/>
+            android:layout_margin="5sp"
+            android:freezesText="true"/>
 
         <Button
             android:id="@+id/button_22"
@@ -156,7 +167,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="60sp"
-            android:layout_margin="5sp"/>
+            android:layout_margin="5sp"
+            android:freezesText="true"/>
     </LinearLayout>
 
 </LinearLayout>
