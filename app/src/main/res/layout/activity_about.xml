@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AboutActivity">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_gravity="center_horizontal"
+        android:text="ABOUT"
+        android:textSize="30sp"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="@color/BLACK" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_marginTop="50dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="This program was developed by best
+friends Ihor and Max. They are really amazing guys,
+and believe me, they will definitely achieve all their goals "
+        android:fontFamily="sans-serif-thin"
+        android:textColor="@color/BLACK"
+        android:textSize="15dp"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="320dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Version 1.6.21 (Android)\nCopyright © 2020 Rich Dudes Inc. All rights reserved."
+        android:fontFamily="sans-serif-thin"
+        android:textColor="@color/colorO"
+        android:textSize="12sp"
+        android:layout_gravity="left"
+        android:layout_marginLeft="20dp"
+        />
+
+
+</LinearLayout>

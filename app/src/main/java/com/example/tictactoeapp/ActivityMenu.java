@@ -9,21 +9,47 @@ import android.widget.Button;
 
 public class ActivityMenu extends AppCompatActivity implements View.OnClickListener {
 
-    Button newGameBtn;
+    Button multiPlayerBtn;
+    Button singlePlayerBtn;
+    Button settingsBtn;
+    Button aboutBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        newGameBtn = findViewById(R.id.new_game_btn);
-        newGameBtn.setOnClickListener(this);
+
+        multiPlayerBtn = findViewById(R.id.multi_player_btn);
+        multiPlayerBtn.setOnClickListener(this);
+
+        singlePlayerBtn = findViewById(R.id.single_player_btn);
+        singlePlayerBtn.setOnClickListener(this);
+
+        settingsBtn = findViewById(R.id.settings_btn);
+        settingsBtn.setOnClickListener(this);
+
+        aboutBtn = findViewById(R.id.about_btn);
+        aboutBtn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.new_game_btn:
+            case R.id.multi_player_btn:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.single_player_btn:
+                Intent intent2 = new Intent(this, SingleActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.settings_btn:
+                Intent intent3 = new Intent(this, SettingsActivity.class);
+                startActivity(intent3);
+                break;
+            case R.id.about_btn:
+                Intent intent4 = new Intent(this, AboutActivity.class);
+                startActivity(intent4);
                 break;
             default:
                 break;

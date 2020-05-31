@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class SingleActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button[][] buttons = new Button[3][3];
-
+    String[][] field = new String[3][3];
     private boolean player1Turn = true;
 
     private int roundCount;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_single);
 
         textViewPlayer1 = findViewById(R.id.text_view_player1);
         textViewPlayer2 = findViewById(R.id.text_view_player2);
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(isLandscape()){
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                      buttons[i][j].setTextSize(30);
+                    buttons[i][j].setTextSize(30);
                 }
             }
         }
@@ -85,36 +85,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        if (player1Turn) {
-            ((Button) v).setTextColor(getResources().getColor(R.color.colorX));
-            ((Button) v).setText("X");
-            textViewPlayer1.setTextColor(getResources().getColor(R.color.colorO));
-            textViewPlayer2.setTextColor(getResources().getColor(R.color.colorX));
+        ((Button) v).setTextColor(getResources().getColor(R.color.colorX));
+        ((Button) v).setText("X");
+        textViewPlayer1.setTextColor(getResources().getColor(R.color.colorO));
+        textViewPlayer2.setTextColor(getResources().getColor(R.color.colorX));
 
-        } else {
-            ((Button) v).setTextColor(getResources().getColor(R.color.colorO));
-            ((Button) v).setText("O");
-            textViewPlayer1.setTextColor(getResources().getColor(R.color.colorX));
-            textViewPlayer2.setTextColor(getResources().getColor(R.color.colorO));
-
-        }
         roundCount++;
-
+        checkForWin();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttons[i][j].setEnabled(false);
+            }
+        }
         if (checkForWin()) {
             if (player1Turn) {
                 player1Wins();
+                return;
             } else {
                 player2Wins();
             }
-        } else if (roundCount == 9) {
+        } else if (roundCount == 10) {
             draw();
         } else {
-            player1Turn = !player1Turn;
+            player1Turn = true;
         }
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                // действие будет выполнено через 2с
+                botSuperEasy();
+                roundCount++;
+                player1Turn=false;
+                textViewPlayer1.setTextColor(getResources().getColor(R.color.colorX));
+                textViewPlayer2.setTextColor(getResources().getColor(R.color.colorO));
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        buttons[i][j].setEnabled(true);
+                    }
+                }
+                if (checkForWin()) {
+                    if (player1Turn) {
+                        player1Wins();
+                    } else {
+                        player2Wins();
+                    }
+                } else if (roundCount == 10) {
+                    draw();
+                } else {
+                    player1Turn = true;
+                }
+            }
+        }, 500);
+
+
+
     }
 
     private boolean checkForWin() {
-        String[][] field = new String[3][3];
+
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -166,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewPlayer1.setTextColor(getResources().getColor(R.color.colorPrimary));
         textViewPlayer2.setTextColor(getResources().getColor(R.color.colorO));
         textViewDraw.setTextColor(getResources().getColor(R.color.colorO));
-        Toast.makeText(this, "Player 1 won!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "You won!", Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
 
@@ -178,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewPlayer1.setTextColor(getResources().getColor(R.color.colorO));
         textViewPlayer2.setTextColor(getResources().getColor(R.color.colorPrimary));
         textViewDraw.setTextColor(getResources().getColor(R.color.colorO));
-        Toast.makeText(this, "Player 2 won!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Bot won!", Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
@@ -194,8 +221,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updatePointsText() {
-        textViewPlayer1.setText("Player 1: " + player1Points);
-        textViewPlayer2.setText("Player 2: " + player2Points);
+        textViewPlayer1.setText("You: " + player1Points);
+        textViewPlayer2.setText("Bot: " + player2Points);
         textViewDraw.setText("Draw: " + draw);
 
     }
@@ -233,11 +260,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void resetField() {
 
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        buttons[i][j].setText("");
-                    }
-                }
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttons[i][j].setText("");
+            }
+        }
         textViewPlayer1.setTextColor(getResources().getColor(R.color.colorX));
         textViewPlayer2.setTextColor(getResources().getColor(R.color.colorO));
         textViewDraw.setTextColor(getResources().getColor(R.color.colorO));
@@ -276,6 +303,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean isLandscape(){
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    private boolean botSuperEasy(){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (field[i][j].equals("")) {
+                    buttons[i][j].setText("O");
+                    buttons[i][j].setTextColor(getResources().getColor(R.color.colorO));
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

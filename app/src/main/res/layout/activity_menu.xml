@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ActivityMenu">
+    tools:context=".ActivityMenu"
+    android:background="@color/colorAppBackground">
 
     <TextView
         android:id="@+id/text_view_app_name"
@@ -21,13 +22,41 @@
         android:textSize="35sp" />
 
     <Button
-        android:id="@+id/new_game_btn"
+        android:id="@+id/single_player_btn"
         android:layout_width="181dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="170dp"
-        android:text="New Game"
         android:fontFamily="sans-serif-thin"
+        android:text="singleplayer"
+        android:textColor="@color/BLACK" />
+
+    <Button
+        android:id="@+id/multi_player_btn"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="MultiPlayer"
+        android:textColor="@color/BLACK" />
+    <Button
+        android:id="@+id/settings_btn"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="settings"
+        android:textColor="@color/BLACK" />
+    <Button
+        android:id="@+id/about_btn"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="about"
         android:textColor="@color/BLACK" />
 
 </LinearLayout>
