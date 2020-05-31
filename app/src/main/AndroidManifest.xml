@@ -9,10 +9,18 @@
         android:roundIcon="@mipmap/ic_tictactoe"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AboutActivity" android:screenOrientation="locked"></activity>
-        <activity android:name=".SettingsActivity" android:screenOrientation="locked"/>
-        <activity android:name=".SingleActivity"/>
-        <activity android:name=".ActivityMenu" android:screenOrientation="locked">
+        <activity android:name=".DifficultyActivity"></activity>
+        <activity android:name=".NamesActivity" />
+        <activity
+            android:name=".AboutActivity"
+            android:screenOrientation="locked" />
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="locked" />
+        <activity android:name=".SingleActivity" />
+        <activity
+            android:name=".ActivityMenu"
+            android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

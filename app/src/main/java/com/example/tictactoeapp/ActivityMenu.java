@@ -36,11 +36,11 @@ public class ActivityMenu extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.multi_player_btn:
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, NamesActivity.class);
                 startActivity(intent);
                 break;
             case R.id.single_player_btn:
-                Intent intent2 = new Intent(this, SingleActivity.class);
+                Intent intent2 = new Intent(this, DifficultyActivity.class);
                 startActivity(intent2);
                 break;
             case R.id.settings_btn:

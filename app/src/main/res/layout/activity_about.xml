@@ -34,19 +34,23 @@ and believe me, they will definitely achieve all their goals "
         android:layout_gravity="center_horizontal"
         />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
         android:id="@+id/textView3"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Version 1.6.21 (Android)\nCopyright © 2020 Rich Dudes Inc. All rights reserved."
         android:fontFamily="sans-serif-thin"
         android:textColor="@color/colorO"
         android:textSize="12sp"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="left"
         android:layout_marginLeft="20dp"
         />
-
+    </RelativeLayout>
 
 </LinearLayout>
