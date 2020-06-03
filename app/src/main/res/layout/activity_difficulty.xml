@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DifficultyActivity">
+    tools:context=".DifficultyActivity"
+    android:background="@color/colorAppBackgroundGreen"
+    android:id="@+id/back">
     <TextView
         android:id="@+id/text_view_names"
         android:layout_width="wrap_content"
@@ -16,7 +18,7 @@
         android:text="Please choose difficulty"
         android:layout_gravity="center_horizontal"
         android:fontFamily="sans-serif-thin"
-        android:textColor="@color/BLACK"/>
+        android:textColor="@color/WHITE"/>
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -34,7 +36,7 @@
             android:layout_margin="5dp"
             android:text="Easy"
             android:fontFamily="sans-serif-thin"
-            android:textColor="@color/BLACK"
+            android:textColor="@color/WHITE"
             />
         <RadioButton
             android:id="@+id/radio_btn_medium"
@@ -45,17 +47,17 @@
             android:layout_margin="5dp"
 
             android:fontFamily="sans-serif-thin"
-            android:textColor="@color/BLACK"
+            android:textColor="@color/WHITE"
             />
         <RadioButton
-            android:id="@+id/radio_btn_ai"
+            android:id="@+id/radio_btn_hard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
             android:layout_margin="5dp"
             android:text="Hard (Super Smart AI)"
             android:fontFamily="sans-serif-thin"
-            android:textColor="@color/BLACK"
+            android:textColor="@color/WHITE"
             />
 
 

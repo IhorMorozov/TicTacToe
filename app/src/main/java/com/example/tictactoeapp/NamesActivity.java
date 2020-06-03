@@ -10,8 +10,8 @@ import android.widget.EditText;
 
 public class NamesActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText name1;
-    EditText name2;
+    EditText player1name;
+    EditText player2name;
     Button startBtn;
     public String str_name1, str_name2;
 
@@ -19,31 +19,24 @@ public class NamesActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_names);
-        name1 = findViewById(R.id.edit_text_player1_name);
-        name2 = findViewById(R.id.edit_text_player2_name);
+        player1name = findViewById(R.id.edit_text_player1_name);
+        player2name = findViewById(R.id.edit_text_player2_name);
         startBtn = findViewById(R.id.start_game_btn);
         startBtn.setOnClickListener(this);
-        str_name1 = name1.getText().toString();
-        str_name2 = name2.getText().toString();
     }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.start_game_btn:
                 Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("name1", player1name.getText().toString());
+                intent.putExtra("name2", player2name.getText().toString());
                 startActivity(intent);
                 break;
 
             default:
                 break;
         }
-    }
-
-    public String getName1(){
-        return str_name1;
-    }
-    public String getName2(){
-        return str_name2;
     }
 
 

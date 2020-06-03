@@ -16,7 +16,7 @@
             android:id="@+id/text_view_player1"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50sp"
+            android:layout_marginLeft="60dp"
             android:layout_marginTop="50dp"
             android:fontFamily="sans-serif-thin"
             android:freezesText="true"
@@ -26,11 +26,11 @@
 
         <TextView
             android:id="@+id/text_view_player2"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
             android:layout_marginTop="50dp"
+            android:layout_marginRight="33dp"
             android:layout_marginBottom="5sp"
             android:fontFamily="sans-serif-thin"
             android:freezesText="true"

@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean player1Turn = true;
     private int roundCount;
 
-    String name1;
-    String name2;
+    String player1Name;
+    String player2Name;
 
     private int player1Points;
     private int player2Points;
@@ -38,11 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        NamesActivity names = new NamesActivity();
-        //name1 = names.getName1();
-        //name2 = names.getName2();
-        name1 = "Player 1";
-        name2 = "Player 2";
+
 
         textViewPlayer1 = findViewById(R.id.text_view_player1);
         textViewPlayer2 = findViewById(R.id.text_view_player2);
@@ -50,9 +46,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonResetField = findViewById(R.id.button_reset);
         buttonResetGame = findViewById(R.id.button_reset_game);
 
+        player1Name = getIntent().getStringExtra("name1");
+        player2Name = getIntent().getStringExtra("name2");
 
-        textViewPlayer1.setText(name1 + ": ");
-        textViewPlayer2.setText(name2 + ": ");
+        textViewPlayer1.setText(player1Name + ": 0");
+        textViewPlayer2.setText(player2Name + ": 0");
         textViewPlayer1.setTextColor(getResources().getColor(R.color.colorX));
 
         for (int i = 0; i < 3; i++) {
@@ -176,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewPlayer1.setTextColor(getResources().getColor(R.color.colorPrimary));
         textViewPlayer2.setTextColor(getResources().getColor(R.color.colorO));
         textViewDraw.setTextColor(getResources().getColor(R.color.colorO));
-        Toast.makeText(this, name1 + " won!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, player1Name + " won!", Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
 
@@ -188,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewPlayer1.setTextColor(getResources().getColor(R.color.colorO));
         textViewPlayer2.setTextColor(getResources().getColor(R.color.colorPrimary));
         textViewDraw.setTextColor(getResources().getColor(R.color.colorO));
-        Toast.makeText(this, name2 + " won!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, player2Name + " won!", Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
@@ -204,10 +202,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updatePointsText() {
-        textViewPlayer1.setText(name1 + " : " + player1Points);
-        textViewPlayer2.setText(name2 + " : " + player2Points);
+        textViewPlayer1.setText(player1Name + " : " + player1Points);
+        textViewPlayer2.setText(player2Name + " : " + player2Points);
         textViewDraw.setText("Draw: " + draw);
-
     }
 
     private void resetBoard() {

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class SingleActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button[][] buttons = new Button[3][3];
@@ -19,16 +20,19 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
 
     private int roundCount;
 
+    private int whichBot;
 
     private int player1Points;
     private int player2Points;
     private int draw;
-
+    boolean isFromHard = false;
+    boolean isEnd = false;
     private TextView textViewPlayer1;
     private TextView textViewPlayer2;
     private TextView textViewDraw;
     Button buttonResetField;
     Button buttonResetGame;
+
 
     Handler handler = new Handler();
 
@@ -43,7 +47,11 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         buttonResetField = findViewById(R.id.button_reset);
         buttonResetGame = findViewById(R.id.button_reset_game);
 
+        whichBot = getIntent().getIntExtra("whichBot", 0);
+
         textViewPlayer1.setTextColor(getResources().getColor(R.color.colorX));
+
+
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -84,44 +92,46 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         if (!((Button) v).getText().toString().equals("")) {
             return;
         }
-
-        ((Button) v).setTextColor(getResources().getColor(R.color.colorX));
+        if(whichBot == 1){
+            ((Button) v).setTextColor(getResources().getColor(R.color.colorAppBackgroundGreen));
+        }
+        else if(whichBot == 2){
+            ((Button) v).setTextColor(getResources().getColor(R.color.colorAppBackgroundYellow));
+        }
+        else if(whichBot == 3){
+            ((Button) v).setTextColor(getResources().getColor(R.color.colorAppBackgroundRed));
+        }
         ((Button) v).setText("X");
         textViewPlayer1.setTextColor(getResources().getColor(R.color.colorO));
         textViewPlayer2.setTextColor(getResources().getColor(R.color.colorX));
 
         roundCount++;
         checkForWin();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                buttons[i][j].setEnabled(false);
-            }
-        }
+
         if (checkForWin()) {
             if (player1Turn) {
                 player1Wins();
                 return;
-            } else {
-                player2Wins();
             }
-        } else if (roundCount == 10) {
-            draw();
-        } else {
-            player1Turn = true;
         }
+        disableButtons();
         handler.postDelayed(new Runnable() {
             public void run() {
                 // действие будет выполнено через 2с
-                botSuperEasy();
+                if(whichBot == 1){
+                    botEasy();
+                }
+                else if(whichBot == 2){
+                    botMedium();
+                }
+                else if(whichBot == 3){
+                    botHard();
+                }
                 roundCount++;
                 player1Turn=false;
                 textViewPlayer1.setTextColor(getResources().getColor(R.color.colorX));
                 textViewPlayer2.setTextColor(getResources().getColor(R.color.colorO));
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        buttons[i][j].setEnabled(true);
-                    }
-                }
+                enableButtons();
                 if (checkForWin()) {
                     if (player1Turn) {
                         player1Wins();
@@ -139,9 +149,22 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
 
 
     }
+    private void disableButtons(){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttons[i][j].setEnabled(false);
+            }
+        }
+    }
+    private void enableButtons(){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttons[i][j].setEnabled(true);
+            }
+        }
+    }
 
     private boolean checkForWin() {
-
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -205,7 +228,7 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         textViewPlayer1.setTextColor(getResources().getColor(R.color.colorO));
         textViewPlayer2.setTextColor(getResources().getColor(R.color.colorPrimary));
         textViewDraw.setTextColor(getResources().getColor(R.color.colorO));
-        Toast.makeText(this, "Bot won!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,  "Bot won!", Toast.LENGTH_SHORT).show();
         updatePointsText();
         resetBoard();
     }
@@ -222,18 +245,14 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
 
     private void updatePointsText() {
         textViewPlayer1.setText("You: " + player1Points);
-        textViewPlayer2.setText("Bot: " + player2Points);
+        textViewPlayer2.setText("Bot: "  + player2Points);
         textViewDraw.setText("Draw: " + draw);
 
     }
 
     private void resetBoard() {
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                buttons[i][j].setEnabled(false);
-            }
-        }
+        disableButtons();
 
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -243,11 +262,7 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
                         buttons[i][j].setText("");
                     }
                 }
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        buttons[i][j].setEnabled(true);
-                    }
-                }
+                enableButtons();
                 textViewPlayer1.setTextColor(getResources().getColor(R.color.colorX));
                 textViewPlayer2.setTextColor(getResources().getColor(R.color.colorO));
                 textViewDraw.setTextColor(getResources().getColor(R.color.colorO));
@@ -305,18 +320,185 @@ public class SingleActivity extends AppCompatActivity implements View.OnClickLis
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
-    private boolean botSuperEasy(){
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (field[i][j].equals("")) {
-                    buttons[i][j].setText("O");
-                    buttons[i][j].setTextColor(getResources().getColor(R.color.colorO));
-                    return true;
-                }
+    private void randomBot() {
+        while (roundCount!= 9){
+            int i = (int) (Math.random() * 3);
+            int j = (int) (Math.random() * 3);
+            if (field[i][j].equals("")) {
+                buttons[i][j].setText("O");
+                buttons[i][j].setTextColor(getResources().getColor(R.color.colorO));
+                return;
             }
         }
-        return false;
     }
+
+    private void botEasy(){
+        for (int i = 0; i < 3; i++) { //Checking for horizontals
+            if (field[i][0].equals("O") && field[i][1].equals("O") && field[i][2].equals("")) {
+                buttons[i][2].setText("O");
+                buttons[i][2].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+            if (field[i][0].equals("O") && field[i][2].equals("O") && field[i][1].equals("")) {
+                buttons[i][1].setText("O");
+                buttons[i][1].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+            if (field[i][1].equals("O") && field[i][2].equals("O") && field[i][0].equals("")) {
+                buttons[i][0].setText("O");
+                buttons[i][0].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+        }
+        for (int i = 0; i < 3; i++) { //Checking for verticals
+            if (field[0][i].equals("O") && field[1][i].equals("O") && field[2][i].equals("")) {
+                buttons[2][i].setText("O");
+                buttons[2][i].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+            if (field[0][i].equals("O") && field[2][i].equals("O") && field[1][i].equals("")) {
+                buttons[1][i].setText("O");
+                buttons[1][i].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+            if (field[1][i].equals("O") && field[2][i].equals("O") && field[0][i].equals("")) {
+                buttons[0][i].setText("O");
+                buttons[0][i].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+        }
+        //Checking for MainDiagonal
+        if (field[0][0].equals("O") && field[1][1].equals("O") && field[2][2].equals("")) {
+            buttons[2][2].setText("O");
+            buttons[2][2].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+        if (field[0][0].equals("O") && field[2][2].equals("O") && field[1][1].equals("")) {
+            buttons[1][1].setText("O");
+            buttons[1][1].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+        if (field[1][1].equals("O") && field[2][2].equals("O") && field[0][0].equals("")) {
+            buttons[0][0].setText("O");
+            buttons[0][0].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+
+        //Checking for SideDiagonal
+        if (field[0][2].equals("O") && field[1][1].equals("O") && field[2][0].equals("")) {
+            buttons[2][0].setText("O");
+            buttons[2][0].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+        if (field[0][2].equals("O") && field[2][2].equals("O") && field[1][1].equals("")) {
+            buttons[1][1].setText("O");
+            buttons[1][1].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+        if (field[1][1].equals("O") && field[2][0].equals("O") && field[0][2].equals("")) {
+            buttons[0][2].setText("O");
+            buttons[0][2].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+
+        isEnd = true;
+        if(isFromHard){
+            return;
+        }
+        randomBot();
+    }
+
+
+
+
+
+    private void botMedium(){
+        for (int i = 0; i < 3; i++) { //Checking for horizontals
+            if (field[i][0].equals(field[i][1]) && !field[i][1].equals("") && field[i][2].equals("")) {
+                buttons[i][2].setText("O");
+                buttons[i][2].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+            if (field[i][0].equals(field[i][2]) && !field[i][2].equals("") && field[i][1].equals("")) {
+                buttons[i][1].setText("O");
+                buttons[i][1].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+            if (field[i][1].equals(field[i][2]) && !field[i][2].equals("") && field[i][0].equals("")) {
+                buttons[i][0].setText("O");
+                buttons[i][0].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+        }
+        for (int i = 0; i < 3; i++) { //Checking for verticals
+            if (field[0][i].equals(field[1][i]) && !field[1][i].equals("") && field[2][i].equals("")) {
+                buttons[2][i].setText("O");
+                buttons[2][i].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+            if (field[0][i].equals(field[2][1]) && !field[2][i].equals("") && field[1][i].equals("")) {
+                buttons[1][i].setText("O");
+                buttons[1][i].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+            if (field[1][i].equals(field[2][i]) && !field[2][i].equals("") && field[0][i].equals("")) {
+                buttons[0][i].setText("O");
+                buttons[0][i].setTextColor(getResources().getColor(R.color.colorO));
+                return;
+            }
+        }
+        //Checking for MainDiagonal
+        if (field[0][0].equals(field[1][1]) && !field[1][1].equals("") && field[2][2].equals("")) {
+            buttons[2][2].setText("O");
+            buttons[2][2].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+        if (field[0][0].equals(field[2][2]) && !field[2][2].equals("") && field[1][1].equals("")) {
+            buttons[1][1].setText("O");
+            buttons[1][1].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+        if (field[1][1].equals(field[2][2]) && !field[2][2].equals("") && field[0][0].equals("")) {
+            buttons[0][0].setText("O");
+            buttons[0][0].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+
+
+        //Checking for SideDiagonal
+        if (field[0][2].equals(field[1][1]) && !field[1][1].equals("") && field[2][0].equals("")) {
+            buttons[2][0].setText("O");
+            buttons[2][0].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+        if (field[0][2].equals(field[2][2]) && !field[2][2].equals("") && field[1][1].equals("")) {
+            buttons[1][1].setText("O");
+            buttons[1][1].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+        if (field[1][1].equals(field[2][0]) && !field[2][0].equals("") && field[0][2].equals("")) {
+            buttons[0][2].setText("O");
+            buttons[0][2].setTextColor(getResources().getColor(R.color.colorO));
+            return;
+        }
+        randomBot();
+
+    }
+
+    private void botHard() {
+        isFromHard = true;
+        botEasy();
+        if(isEnd) {
+            botMedium();
+        }
+        isEnd = false;
+        isFromHard = false;
+    }
+
+
+
+
+
 
 }
 
